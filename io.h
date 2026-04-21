@@ -3,7 +3,9 @@
 
 #include "waveform.h"
 
-WaveformSample *load_csv(const char *filename, int *count);
+int load_data(const char *filename, WaveformSample **data);
+
+
 
 #endif
 

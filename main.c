@@ -1,46 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "io.h"
 #include "waveform.h"
+#include "io.h"
 
 int main() {
-    WaveformSample *data;
-    int count = 0;
+    WaveformSample *data = NULL;
+    int count = load_data("power_quality_log.csv", &data);
 
-    data = load_csv("power_quality_log.csv", &count);
-
-    printf("Count: %d\n", count); // DEBUG
-
-    if (data == NULL || count == 0) {
-        printf("Error: No data loaded\n");
+    if (count <= 0) {
+        printf("No data loaded\n");
         return 1;
     }
 
-    double rms = calculate_rms(data, count);
-    double peak = calculate_peak_to_peak(data, count);
-    double dc = calculate_dc_offset(data, count);
-    int clipping = detect_clipping(data, count);
-    int within_tolerance = check_tolerance(rms);
+    double rmsA = compute_rms(data, count, 'A');
+    double p2pA = compute_peak_to_peak(data, count, 'A');
+    double dcA = compute_dc_offset(data, count, 'A');
+    int clipped = detect_clipping(data, count);
 
-    printf("Total samples: %d\n", count);
-    printf("RMS Voltage: %.2f\n", rms);
-    printf("Peak-to-Peak: %.2f\n", peak);
-    printf("DC Offset: %.2f\n", dc);
-    printf("Clipping: %s\n", clipping ? "YES" : "NO");
-    printf("Within Tolerance: %s\n", within_tolerance ? "YES" : "NO");
+    double fmin = compute_frequency_min(data, count);
+    double fmax = compute_frequency_max(data, count);
+    double pfmin = compute_pf_min(data, count);
+    double pfmax = compute_pf_max(data, count);
+    double thdmin = compute_thd_min(data, count);
+    double thdmax = compute_thd_max(data, count);
 
     FILE *out = fopen("results.txt", "w");
 
-    if (out != NULL) {
-        fprintf(out, "Total samples: %d\n", count);
-        fprintf(out, "RMS Voltage: %.2f\n", rms);
-        fprintf(out, "Peak-to-Peak: %.2f\n", peak);
-        fprintf(out, "DC Offset: %.2f\n", dc);
-        fprintf(out, "Clipping: %s\n", clipping ? "YES" : "NO");
-        fprintf(out, "Within Tolerance: %s\n", within_tolerance ? "YES" : "NO");
+    fprintf(out, "Phase A RMS: %.2f V\n", rmsA);
+    fprintf(out, "Peak-to-Peak: %.2f V\n", p2pA);
+    fprintf(out, "DC Offset: %.2f V\n", dcA);
+    fprintf(out, "Clipped Samples: %d\n", clipped);
+    fprintf(out, "Frequency Range: %.3f - %.3f Hz\n", fmin, fmax);
+    fprintf(out, "Power Factor Range: %.3f - %.3f\n", pfmin, pfmax);
+    fprintf(out, "THD Range: %.2f - %.2f %%\n", thdmin, thdmax);
 
-        fclose(out);
-    }
+    fclose(out);
+
+    printf("Results written to results.txt\n");
 
     free(data);
     return 0;

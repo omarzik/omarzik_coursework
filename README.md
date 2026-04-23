@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a C program that reads power quality data from a CSV file and calculates important electrical values.
+This project is a C program that reads power quality data from a CSV file and calculates important electrical values
 
 The program works with three-phase voltage data and checks if the system is operating within normal conditions.
 

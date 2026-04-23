@@ -2,8 +2,10 @@
 #include "waveform.h"
 
 double get_voltage(WaveformSample s, char phase) {
-    if (phase == 'A') return s.phase_A_voltage;
-    if (phase == 'B') return s.phase_B_voltage;
+    if (phase == 'A')
+        return s.phase_A_voltage;
+    if (phase == 'B')
+        return s.phase_B_voltage;
     return s.phase_C_voltage;
 }
 
@@ -22,8 +24,10 @@ double compute_peak_to_peak(WaveformSample *data, int count, char phase) {
 
     for (int i = 1; i < count; i++) {
         double v = get_voltage(data[i], phase);
-        if (v > max) max = v;
-        if (v < min) min = v;
+        if (v > max)
+            max = v;
+        if (v < min)
+            min = v;
     }
     return max - min;
 }
@@ -55,14 +59,16 @@ int detect_clipping(WaveformSample *data, int count) {
 double compute_frequency_min(WaveformSample *data, int count) {
     double min = data[0].frequency;
     for (int i = 1; i < count; i++)
-        if (data[i].frequency < min) min = data[i].frequency;
+        if (data[i].frequency < min)
+            min = data[i].frequency;
     return min;
 }
 
 double compute_frequency_max(WaveformSample *data, int count) {
     double max = data[0].frequency;
     for (int i = 1; i < count; i++)
-        if (data[i].frequency > max) max = data[i].frequency;
+        if (data[i].frequency > max)
+            max = data[i].frequency;
     return max;
 }
 
@@ -76,20 +82,23 @@ double compute_pf_min(WaveformSample *data, int count) {
 double compute_pf_max(WaveformSample *data, int count) {
     double max = data[0].power_factor;
     for (int i = 1; i < count; i++)
-        if (data[i].power_factor > max) max = data[i].power_factor;
+        if (data[i].power_factor > max)
+            max = data[i].power_factor;
     return max;
 }
 
 double compute_thd_min(WaveformSample *data, int count) {
     double min = data[0].thd;
     for (int i = 1; i < count; i++)
-        if (data[i].thd < min) min = data[i].thd;
+        if (data[i].thd < min)
+            min = data[i].thd;
     return min;
 }
 
 double compute_thd_max(WaveformSample *data, int count) {
     double max = data[0].thd;
     for (int i = 1; i < count; i++)
-        if (data[i].thd > max) max = data[i].thd;
+        if (data[i].thd > max)
+            max = data[i].thd;
     return max;
 }

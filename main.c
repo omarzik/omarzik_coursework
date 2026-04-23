@@ -13,8 +13,10 @@ int main() {
     }
 
     double rmsA = compute_rms(data, count, 'A');
-    double p2pA = compute_peak_to_peak(data, count, 'A');
-    double dcA = compute_dc_offset(data, count, 'A');
+    double rmsB = compute_rms(data, count, 'B');
+    double rmsC = compute_rms(data, count, 'C');
+    double peakA = compute_peak_to_peak(data, count, 'A');
+    double dcOffsetA = compute_dc_offset(data, count, 'A');
     int clipped = detect_clipping(data, count);
 
     double fmin = compute_frequency_min(data, count);
@@ -24,17 +26,19 @@ int main() {
     double thdmin = compute_thd_min(data, count);
     double thdmax = compute_thd_max(data, count);
 
-    FILE *out = fopen("results.txt", "w");
+    FILE *output = fopen("results.txt", "w");
 
-    fprintf(out, "Phase A RMS: %.2f V\n", rmsA);
-    fprintf(out, "Peak-to-Peak: %.2f V\n", p2pA);
-    fprintf(out, "DC Offset: %.2f V\n", dcA);
-    fprintf(out, "Clipped Samples: %d\n", clipped);
-    fprintf(out, "Frequency Range: %.3f - %.3f Hz\n", fmin, fmax);
-    fprintf(out, "Power Factor Range: %.3f - %.3f\n", pfmin, pfmax);
-    fprintf(out, "THD Range: %.2f - %.2f %%\n", thdmin, thdmax);
+    fprintf(output, "Phase A RMS: %.2f V\n", rmsA);
+    fprintf(output, "Phase B RMS: %.2f V\n", rmsB);
+    fprintf(output, "Phase C RMS: %.2f V\n", rmsC);
+    fprintf(output, "Peak-to-Peak: %.2f V\n", peakA);
+    fprintf(output, "DC Offset: %.2f V\n", dcOffsetA);
+    fprintf(output, "Clipped Samples: %d\n", clipped);
+    fprintf(output, "Frequency Range: %.3f - %.3f Hz\n", fmin, fmax);
+    fprintf(output, "Power Factor Range: %.3f - %.3f\n", pfmin, pfmax);
+    fprintf(output, "THD Range: %.2f - %.2f %%\n", thdmin, thdmax);
 
-    fclose(out);
+    fclose(output);
 
     printf("Results written to results.txt\n");
 

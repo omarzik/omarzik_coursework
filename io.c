@@ -6,7 +6,7 @@
 int load_data(const char *filename, WaveformSample **data) {
     FILE *file = fopen(filename, "r");
 
-    if (!file) {
+    if (file == NULL) {
         printf("Error opening file\n");
         return 0;
     }

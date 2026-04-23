@@ -28,9 +28,12 @@ int main() {
 
     FILE *output = fopen("results.txt", "w");
 
-    fprintf(output, "Phase A RMS: %.2f V\n", rmsA);
-    fprintf(output, "Phase B RMS: %.2f V\n", rmsB);
-    fprintf(output, "Phase C RMS: %.2f V\n", rmsC);
+    fprintf(output, "Phase A RMS: %.2f V (%s, range: 207–253 V)\n",
+            rmsA, (rmsA >= 207.0 && rmsA <= 253.0) ? "COMPLIANT" : "OUT OF TOLERANCE");
+    fprintf(output, "Phase B RMS: %.2f V (%s, range: 207–253 V)\n",
+            rmsB, (rmsB >= 207.0 && rmsB <= 253.0) ? "COMPLIANT" : "OUT OF TOLERANCE");
+    fprintf(output, "Phase C RMS: %.2f V (%s, range: 207–253 V)\n",
+            rmsC, (rmsC >= 207.0 && rmsC <= 253.0) ? "COMPLIANT" : "OUT OF TOLERANCE");
     fprintf(output, "Peak-to-Peak: %.2f V\n", peakA);
     fprintf(output, "DC Offset: %.2f V\n", dcOffsetA);
     fprintf(output, "Clipped Samples: %d\n", clipped);

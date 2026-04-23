@@ -6,7 +6,6 @@ This project is a C program that reads power quality data from a CSV file and ca
 
 The program works with three-phase voltage data and checks if the system is operating within normal conditions.
 
----
 
 ## What the program does
 
@@ -22,7 +21,7 @@ The program reads data from `power_quality_log.csv` and calculates:
 
 All results are saved in a file called `results.txt`.
 
----
+
 
 ## How the program is structured
 
@@ -34,7 +33,7 @@ The program is split into different files:
 
 This makes the code easier to organise and understand.
 
----
+
 
 ## Why I used a struct
 
@@ -42,7 +41,7 @@ I used a struct called `WaveformSample` to store all values from one row of the 
 
 This is better than using multiple arrays because all related data stays together.
 
----
+
 
 ## Why I used malloc
 
@@ -50,7 +49,7 @@ I used `malloc()` to create memory for the data because the program needs to sto
 
 This makes the program flexible instead of using a fixed-size array.
 
----
+
 
 ## Clipping explanation
 
@@ -61,7 +60,7 @@ However, because this is a three-phase system, clipping happens across all three
 
 So I divided the result by 3 to represent about 20 actual clipping events.
 
----
+
 
 ## Example output
 
@@ -73,7 +72,7 @@ Frequency Range: 50.000 - 50.048 Hz
 Power Factor Range: 0.950 - 0.962
 THD Range: 2.00 - 2.18 %
 
----
+
 
 ## Testing
 
@@ -83,7 +82,7 @@ I tested the program by:
 * Comparing results with expected values
 * Using print statements to debug issues
 
----
+
 
 ## How to run the program
 
@@ -92,7 +91,7 @@ I tested the program by:
 3. Run it
 4. Check `results.txt` for output
 
----
+
 
 ## What I learned
 
@@ -102,7 +101,7 @@ I tested the program by:
 * How to calculate electrical values like RMS
 * How to organise code into multiple files
 
----
+
 
 ## Conclusion
 

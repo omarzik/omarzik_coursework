@@ -102,3 +102,25 @@ double compute_thd_max(WaveformSample *data, int count) {
             max = data[i].thd;
     return max;
 }
+
+void update_status_flags(WaveformSample *data, int count, double rmsA, double rmsB, double rmsC) {
+    for (int i = 0; i < count; i++) {
+        data[i].status = 0;
+
+        if (fabs(data[i].phase_A_voltage) >= 324.9 ||
+            fabs(data[i].phase_B_voltage) >= 324.9 ||
+            fabs(data[i].phase_C_voltage) >= 324.9) {
+            data[i].status |= CLIPPING_FLAG;
+        }
+
+        if (rmsA < 207.0 || rmsA > 253.0 ||
+            rmsB < 207.0 || rmsB > 253.0 ||
+            rmsC < 207.0 || rmsC > 253.0) {
+            data[i].status |= RMS_FLAG;
+        }
+
+        if (data[i].thd > 5.0) {
+            data[i].status |= THD_FLAG;
+        }
+    }
+}

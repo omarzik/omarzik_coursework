@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "waveform.h"
 #include "io.h"
+#include <math.h>
 
 int main() {
     WaveformSample *data = NULL;
@@ -15,6 +16,7 @@ int main() {
     double rmsA = compute_rms(data, count, 'A');
     double rmsB = compute_rms(data, count, 'B');
     double rmsC = compute_rms(data, count, 'C');
+    update_status_flags(data, count, rmsA, rmsB, rmsC);
     double peakA = compute_peak_to_peak(data, count, 'A');
     double dcOffsetA = compute_dc_offset(data, count, 'A');
     int clipped = detect_clipping(data, count);
@@ -40,7 +42,32 @@ int main() {
     fprintf(output, "Frequency Range: %.3f - %.3f Hz\n", fmin, fmax);
     fprintf(output, "Power Factor Range: %.3f - %.3f\n", pfmin, pfmax);
     fprintf(output, "THD Range: %.2f - %.2f %%\n", thdmin, thdmax);
+    for (int i = 0; i < count; i++) {
+        if (data[i].status != 0) {
+            fprintf(output, "Sample %d Status: ", i);
 
+            if (data[i].status & CLIPPING_FLAG) {
+                fprintf(output, "[CLIPPING: ");
+
+                if (fabs(data[i].phase_A_voltage) >= 324.9)
+                    fprintf(output, "A ");
+
+                if (fabs(data[i].phase_B_voltage) >= 324.9)
+                    fprintf(output, "B ");
+
+                if (fabs(data[i].phase_C_voltage) >= 324.9)
+                    fprintf(output, "C ");
+
+                fprintf(output, "] ");
+            }
+            if (data[i].status & RMS_FLAG)
+                fprintf(output, "[RMS OUT OF TOLERANCE] ");
+            if (data[i].status & THD_FLAG)
+                fprintf(output, "[HIGH THD] ");
+
+            fprintf(output, "\n");
+        }
+    }
     fclose(output);
 
     printf("Results written to results.txt\n");

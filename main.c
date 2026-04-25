@@ -27,6 +27,13 @@ int main() {
     double pfmax = compute_pf_max(data, count);
     double thdmin = compute_thd_min(data, count);
     double thdmax = compute_thd_max(data, count);
+    double varA = compute_variance(data, count, 'A');
+    double varB = compute_variance(data, count, 'B');
+    double varC = compute_variance(data, count, 'C');
+
+    double stdA = compute_standard_deviation(data, count, 'A');
+    double stdB = compute_standard_deviation(data, count, 'B');
+    double stdC = compute_standard_deviation(data, count, 'C');
 
     FILE *output = fopen("results.txt", "w");
 
@@ -68,6 +75,13 @@ int main() {
             fprintf(output, "\n");
         }
     }
+    fprintf(output, "Phase A Variance: %.2f V^2\n", varA);
+    fprintf(output, "Phase B Variance: %.2f V^2\n", varB);
+    fprintf(output, "Phase C Variance: %.2f V^2\n", varC);
+
+    fprintf(output, "Phase A Standard Deviation: %.2f V\n", stdA);
+    fprintf(output, "Phase B Standard Deviation: %.2f V\n", stdB);
+    fprintf(output, "Phase C Standard Deviation: %.2f V\n", stdC);
     fclose(output);
 
     printf("Results written to results.txt\n");

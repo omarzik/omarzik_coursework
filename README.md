@@ -91,7 +91,51 @@ I tested the program by:
 3. Run it
 4. Check `results.txt` for output
 
+## Extending the Program
 
+### 1. Bitwise Status Flags
+
+I implemented a bitwise status flag system using a `uint8_t` field inside the `WaveformSample` struct.
+
+Each bit represents a different condition:
+- Bit 0 = Clipping detected
+- Bit 1 = RMS out of tolerance
+- Bit 2 = High THD
+
+This allows multiple conditions to be stored efficiently in a single variable instead of using multiple boolean variables.
+
+The flags are set using bitwise operations (`|=`) and checked using the bitwise AND operator (`&`).
+
+Example:
+- A value of `1` means clipping only
+- A value of `3` means clipping and RMS issues
+- A value of `0` means no issues
+
+This improves scalability and keeps the code efficient and organised.
+
+
+
+### 2. Statistical Analysis (Variance and Standard Deviation)
+
+I extended the program to calculate both variance and standard deviation for each phase voltage.
+
+Variance is calculated using:
+
+variance = average of (value − mean)²
+
+Standard deviation is then calculated as:
+
+standard deviation = sqrt(variance)
+
+This was implemented using a two-pass approach:
+1. First pass calculates the mean (DC offset)
+2. Second pass calculates the squared differences from the mean
+
+These metrics provide additional insight into how stable the voltage signal is.
+
+For this dataset, the standard deviation is approximately equal to the RMS value because the DC offset is very close to zero, meaning the signal is centred around zero.
+
+This extension demonstrates deeper mathematical analysis of the waveform data.
 
 ## What I learned
 

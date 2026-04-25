@@ -124,3 +124,21 @@ void update_status_flags(WaveformSample *data, int count, double rmsA, double rm
         }
     }
 }
+
+double compute_variance(WaveformSample *data, int count, char phase) {
+    double mean = compute_dc_offset(data, count, phase);
+    double sum = 0.0;
+
+    for (int i = 0; i < count; i++) {
+        double v = get_voltage(data[i], phase);
+        double difference = v - mean;
+        sum += difference * difference;
+    }
+
+    return sum / count;
+}
+
+double compute_standard_deviation(WaveformSample *data, int count, char phase) {
+    double variance = compute_variance(data, count, phase);
+    return sqrt(variance);
+}

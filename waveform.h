@@ -30,6 +30,8 @@ double compute_pf_min(WaveformSample *data, int count);
 double compute_pf_max(WaveformSample *data, int count);
 double compute_thd_min(WaveformSample *data, int count);
 double compute_thd_max(WaveformSample *data, int count);
+double compute_variance(WaveformSample *data, int count, char phase);
+double compute_standard_deviation(WaveformSample *data, int count, char phase);
 
 void update_status_flags(WaveformSample *data, int count, double rmsA, double rmsB, double rmsC);
 

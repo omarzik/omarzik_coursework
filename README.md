@@ -152,3 +152,5 @@ This extension demonstrates deeper mathematical analysis of the waveform data.
 This project shows how data from a CSV file can be analysed using C to check power quality.
 
 The program works correctly and produces realistic results.
+
+https://github.com/omarzik/omarzik_coursework
